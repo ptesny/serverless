@@ -4,14 +4,25 @@ import importlib
 import os
 import queue
 import sys
+print(sys.path)
 import threading
 
 import bottle
 import prometheus_client as prom
 
-import lib.tracing as tracing
-from lib.ce import Event
-from lib.tracing import set_req_context
+dir_path = os.path.dirname(os.path.realpath(__file__))
+parent_dir_path = os.path.abspath(os.path.join(dir_path, os.pardir))
+sys.path.insert(0, parent_dir_path)
+
+try:
+  #import lib.tracing as tracing
+  import tracing as tracing
+except ModuleNotFoundError:
+   print("The module 'lib.tracing' is not installed. ")
+#from lib.ce import Event
+#from lib.tracing import set_req_context
+from ce import Event
+from tracing import set_req_context
 
 
 # The reason this file has an underscore prefix in its name is to avoid a
